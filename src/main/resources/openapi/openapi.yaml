@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: API для работы с сотрудниками
+  description: API для работы с сервисом EmployeeManager
+  version: 1.0.0
+tags:
+  - name: Employee
+paths:
+  /employee/registry:
+    post:
+      tags:
+        - Employee
+      summary: Регистрация нового сотрудника
+      description: 'Регистрация нового сотрудника в сервисе EmployeeManager'
+      operationId: registryEmployee
+      requestBody:
+        description: Объект с данными о новом сотруднике
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistryEmployeeRequestDTO'
+      responses:
+        '201':
+          description: Успешная операция
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeResponseDTO'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistryEmployeeRequestDTO'
+        '500':
+          description: Сервис EmployeeManager не доступен
+components:
+  schemas:
+    RegistryEmployeeRequestDTO:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - departmentId
+      properties:
+        firstName:
+          description: 'Фамилия сотрудника'
+          type: string
+          example: 'Алтухов'
+        lastName:
+          description: 'Имя сотрудника'
+          type: string
+          example: 'Алексей'
+        email:
+          description: 'Email сотрудника'
+          type: string
+          example: 'aaltukhov@mail.ru'
+        departmentId:
+          description: 'ID отдела'
+          type: integer
+          format: int64
+          example: 31
+    EmployeeResponseDTO:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - linkResume
+        - departmentId
+      properties:
+        id:
+          description: 'ID сотрудника'
+          type: integer
+          format: int64
+          example: 12
+        firstName:
+          description: 'Фамилия сотрудника'
+          type: string
+          example: 'Алтухов'
+        lastName:
+          description: 'Имя сотрудника'
+          type: string
+          example: 'Алексей'
+        email:
+          description: 'Email сотрудника'
+          type: string
+          example: 'aaltukhov@mail.ru'
+        linkResume:
+          description: 'Ссылка на резюме сотрудника'
+          type: string
+          example: 'https://hh.ru/aaltukhov'
+        departmentId:
+          description: 'ID отдела'
+          type: integer
+          format: int64
+          example: 31
+    ResumeRequestDTO:
+      type: object
+      required:
+        - linkResume
+      properties:
+        email:
+          description: 'Email сотрудника'
+          type: string
+          example: 'aaltukhov@mail.ru'
+    ResumeResponseDTO:
+      type: object
+      required:
+        - linkResume
+      properties:
+        linkResume:
+          description: 'Ссылка на резюме сотрудника'
+          type: string
+          example: 'https://hh.ru/aaltukhov'
